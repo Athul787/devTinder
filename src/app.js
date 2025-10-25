@@ -1,8 +1,14 @@
 const express = require("express");
 const app = express();
 
-app.use("/test", (req, res) => {
-  res.send("Hi from server");
+app.get("/test/:something", (req, res) => {
+  console.log(req.params);
+  res.send("Get call");
+});
+
+app.post("/test", (req, res) => {
+  //   console.log(req.body);
+  res.send("Post call");
 });
 
 app.listen(3000, () => {
