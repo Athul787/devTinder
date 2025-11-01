@@ -1,16 +1,32 @@
 const express = require("express");
 const app = express();
+const { authChecker } = require("./middlewares/auth");
+const connectDB = require("./config/database.js");
+const UserModel = require("./models/user.js");
 
-app.get("/test/:something", (req, res) => {
-  console.log(req.params);
-  res.send("Get call");
-});
+connectDB()
+  .then(() => {
+    console.log("database connected");
+    app.listen(3000, () => {
+      console.log("Server successfully listening on port 3000");
+    });
+  })
+  .catch((err) => {
+    console.error("database can not be connected");
+  });
 
-app.post("/test", (req, res) => {
-  //   console.log(req.body);
-  res.send("Post call");
-});
+app.post("/signup", async (req, res) => {
+  const user = new UserModel({
+    firstName: "Athul",
+    lastName: "Krishna B",
+    emailId: "ath@gmail.com",
+    password: "Athul@123",
+  });
 
-app.listen(3000, () => {
-  console.log("Server successfully listening on port 3000");
+  try {
+    await user.save();
+    res.send("User added successfully");
+  } catch (err) {
+    res.status(400).send("Error occured" + err.message);
+  }
 });
