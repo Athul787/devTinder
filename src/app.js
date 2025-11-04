@@ -15,13 +15,10 @@ connectDB()
     console.error("database can not be connected");
   });
 
+app.use(express.json());
+
 app.post("/signup", async (req, res) => {
-  const user = new UserModel({
-    firstName: "Athul",
-    lastName: "Krishna B",
-    emailId: "ath@gmail.com",
-    password: "Athul@123",
-  });
+  const user = new UserModel(req.body);
 
   try {
     await user.save();
