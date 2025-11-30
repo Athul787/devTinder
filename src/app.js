@@ -1,9 +1,21 @@
 const express = require("express");
 const app = express();
-const { authChecker } = require("./middlewares/auth");
 const connectDB = require("./config/database.js");
 const UserModel = require("./models/user.js");
+const { connections } = require("mongoose");
+const cookieParser = require("cookie-parser");
+const { userAuth } = require("./middlewares/auth.js");
 
+app.use(express.json());
+app.use(cookieParser());
+
+const authRouter = require("./routes/auth.js");
+const profileRouter = require("./routes/profile.js");
+const requestRouter = require("./routes/request.js");
+
+app.use("/", authRouter);
+app.use("/", profileRouter);
+app.use("/", requestRouter);
 connectDB()
   .then(() => {
     console.log("database connected");
@@ -14,16 +26,3 @@ connectDB()
   .catch((err) => {
     console.error("database can not be connected");
   });
-
-app.use(express.json());
-
-app.post("/signup", async (req, res) => {
-  const user = new UserModel(req.body);
-
-  try {
-    await user.save();
-    res.send("User added successfully");
-  } catch (err) {
-    res.status(400).send("Error occured" + err.message);
-  }
-});
