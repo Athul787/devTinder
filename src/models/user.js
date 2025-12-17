@@ -1,16 +1,21 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const { isLowercase } = require("validator");
 
 const userSchema = new mongoose.Schema({
   firstName: {
     type: String,
+    required: true,
   },
   lastName: {
     type: String,
   },
   emailId: {
     type: String,
+    lowercase: true,
+    required: true,
+    unique: true,
   },
   password: {
     type: String,
