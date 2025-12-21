@@ -14,8 +14,8 @@ GET /profile/password
 
 ## connectionRequestRouter
 
-POST /request/send/interested/:userId
-POST /request/send/ignored/:userId
+POST /request/send/:status/:userId //interested or ignored
+
 POST /request/review/accepted/:requestId
 POST /request/review/rejected/:requestId
 
