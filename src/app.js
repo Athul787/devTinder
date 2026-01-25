@@ -5,7 +5,13 @@ const UserModel = require("./models/user.js");
 const { connections } = require("mongoose");
 const cookieParser = require("cookie-parser");
 const { userAuth } = require("./middlewares/auth.js");
+var cors = require("cors");
 
+var corsOptions = {
+  origin: "http://localhost:5173",
+  credentials: true,
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 
