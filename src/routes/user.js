@@ -19,7 +19,7 @@ userRouter.get("/user/requests/received", userAuth, async (req, res) => {
       status: "interested",
     }).populate("fromUserId", USER_SAFE_DATA);
     const data = connectionRequests.map((row) => row.fromUserId);
-    res.send(data);
+    res.send(connectionRequests);
   } catch (err) {
     req.status(400).send("Error: " + err.message);
   }
