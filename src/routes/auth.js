@@ -7,29 +7,18 @@ const { validateSignUpData } = require("../utils/validation.js");
 authRouter.post("/signup", async (req, res) => {
   try {
     validateSignUpData(req);
-    const {
-      firstName,
-      lastName,
-      emailId,
-      password,
-      skills,
-      gender,
-      about,
-      photoUrl,
-    } = new UserModel(req.body);
+    const { firstName, lastName, emailId, password } = new UserModel(req.body);
     const passwordHash = await bcrypt.hash(password, 10);
     const user = new UserModel({
       firstName,
       lastName,
       emailId,
       password: passwordHash,
-      skills,
-      gender,
-      about,
-      photoUrl,
     });
-    await user.save();
-    res.send("User added successfully");
+    const savedUser = await user.save();
+    const token = await savedUser.getJWT();
+    res.cookie("token", token);
+    res.json({ message: "User added successfully", data: savedUser });
   } catch (err) {
     res.status(400).send("Error occured: " + err.message);
   }
