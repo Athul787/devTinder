@@ -4,6 +4,8 @@ const { userAuth } = require("../middlewares/auth.js");
 const ConnectionRequestModel = require("../models/connectionRequest.js");
 const User = require("../models/user.js");
 
+const sendEmail = require("../utils/ses_sendemail.js");
+
 requestRouter.post(
   "/request/send/:status/:toUserId",
   userAuth,
@@ -47,6 +49,9 @@ requestRouter.post(
 
       const data = await connectionRequest.save();
 
+      const emailRes = await sendEmail.run();
+      console.log(emailRes);
+
       res.json({
         message: "Connection Request Sent Successfully",
         data,
@@ -54,7 +59,7 @@ requestRouter.post(
     } catch (err) {
       res.status(400).send("ERROR: " + err.message);
     }
-  }
+  },
 );
 
 requestRouter.post(
@@ -87,6 +92,6 @@ requestRouter.post(
     } catch (err) {
       res.status(400).send("ERROR: " + err.message);
     }
-  }
+  },
 );
 module.exports = requestRouter;

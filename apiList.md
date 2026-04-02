@@ -1,4 +1,4 @@
-# DevTinder APIs
+# DevFinder APIs
 
 ## authRouter
 
