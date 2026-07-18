@@ -1,5 +1,3 @@
-require("dotenv").config(); // Load environment variables from .env file
-
 // snippet-start:[ses.JavaScript.createclientv3]
 const { SESClient } = require("@aws-sdk/client-ses");
 // Set the AWS Region.

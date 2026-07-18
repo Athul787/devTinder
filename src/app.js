@@ -6,6 +6,7 @@ const { connections } = require("mongoose");
 const cookieParser = require("cookie-parser");
 const { userAuth } = require("./middlewares/auth.js");
 var cors = require("cors");
+require("dotenv").config(); // Load environment variables from .env file
 
 var corsOptions = {
   origin: "http://localhost:5173",
